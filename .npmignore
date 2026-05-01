@@ -1,0 +1,11 @@
+# 忽略开发文件
+node_modules/
+.git/
+.vscode/
+*.log
+src/templates/node_modules/
+src/templates/.git/
+
+# 忽略源文件（只发布构建后内容，如果需要构建的话）
+# src/commands/*.ts
+# src/utils/*.ts

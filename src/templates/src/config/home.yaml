@@ -1,0 +1,220 @@
+# =============================================================================
+# zym2013 个人网站配置文件
+# 所有配置项均从本文件读取，修改后保存即生效，无需重启服务
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 🏠 首页配置 (Home Page)
+# -----------------------------------------------------------------------------
+home:
+  # 主页标题打字机显示的文字
+  typedName: "zym2013"
+  
+  # 顶部导航链接列表
+  navigation:
+    - text: "项目"              # 显示文字
+      href: "/project/"         # 跳转链接
+    - text: "博客"
+      href: "/blog/"
+    - text: "RSS"
+      href: "/rss.xml"
+    - text: "Github"
+      href: "https://github.com/zym2013"
+      external: true            # 是否在新标签页打开（外部链接）
+    - text: "联系方式"
+      href: "mailto:3396619503@qq.com"
+  
+  # 首页页脚版权信息（旧版，建议迁移到全局 footer）
+  footer:
+    copyright: "zym2013"        # 版权所有者
+    year: 2026                  # 起始年份
+    github: "https://github.com/zym2013"  # GitHub 链接
+
+# -----------------------------------------------------------------------------
+# 👤 个人介绍页配置 (About Page)
+# -----------------------------------------------------------------------------
+about:
+  # 头像配置
+  avatar:
+    src: "https://cdn.luogu.com.cn/upload/image_hosting/0o0rtw3k.png"  # 头像图片 URL
+    alt: "zym2013 Avatar"       # 图片替代文本（SEO/无障碍）
+  
+  # 名字显示配置
+  name:
+    main: "zym2013"             # 主名字（大字）
+    sub: "xxx"                  # 小名/副标题（小字）
+  
+  # 个性一言配置（支持打字机效果）
+  oneLiner:
+    enabled: true               # 是否启用打字机效果
+    text: "用代码表达言语的魅力，用代码书写山河的壮丽"  # 显示的文字内容
+    typeSpeed: 60               # 打字速度（毫秒/字符）
+    showCursor: true            # 是否显示光标
+  
+  # 名言展示配置
+  quote:
+    en: "Yesterday is history, tomorrow is a mystery, today is God's gift, that's why we call it the present."
+    cn: "昨天是历史，明天是谜团，今天是上帝的礼物，这就是为什么我们称它为现在。"
+  
+  # 社交链接列表（个人介绍页底部）
+  socialLinks:
+    - name: "GitHub"
+      url: "https://github.com/zym2013"
+      icon: "fa-brands fa-github"  # Font Awesome 图标类名
+      external: true
+    - name: "洛谷"
+      url: "https://www.luogu.com.cn/user/123456"
+      icon: "fa-solid fa-code"
+      external: true
+    - name: "RSS"
+      url: "/rss.xml"
+      icon: "fa-solid fa-rss"
+    - name: "Email"
+      url: "mailto:3396619503@qq.com"
+      icon: "fa-solid fa-envelope"
+
+# -----------------------------------------------------------------------------
+# 🎁 预留页配置 (Reserved Page)
+# -----------------------------------------------------------------------------
+reserved:
+  title: "✨ 敬请期待"           # 页面标题
+  description: "更多内容正在开发中..."  # 页面描述文字
+
+# -----------------------------------------------------------------------------
+# 🔄 页面切换器配置 (Page Switcher)
+# -----------------------------------------------------------------------------
+pageSwitcher:
+  totalPages: 3                # 总页数（控制指示器和切换器显示）
+  scrollThreshold: 50          # 滚动触发阈值（像素），大于此值才切换页面
+  scrollCooldown: 600          # 滚动冷却时间（毫秒），防止连续误触
+
+# -----------------------------------------------------------------------------
+# 🦶 全局页脚配置 (Global Footer) - 所有页面共用
+# -----------------------------------------------------------------------------
+footer:
+  enabled: true                # 全局开关：是否显示页脚
+  
+  # 社交链接（页脚左侧，视频头像下方）
+  socialLinks:
+    - name: "GitHub"
+      url: "https://github.com/zym2013"
+      icon: "fa-brands fa-github"
+    - name: "RSS"
+      url: "/rss.xml"
+      icon: "fa-solid fa-rss"
+    - name: "Email"
+      url: "mailto:3396619503@qq.com"
+      icon: "fa-solid fa-envelope"
+  
+  # 链接列配置（四列布局，每列一个标题 + 多个链接）
+  linkColumns:
+    - title: "服务"
+      links:
+        - text: "RSS"
+          url: "/rss.xml"
+          external: false
+        - text: "十年之约"
+          url: "https://foreverblog.cn/go.html"
+          external: true
+        - text: "开往"
+          url: "https://www.travellings.cn/go.html"
+          external: true
+    
+    - title: "导航"
+      links:
+        - text: "博客"
+          url: "/blog/"
+          external: false
+        - text: "项目"
+          url: "/project/"
+          external: false
+        - text: "实验室"
+          url: "/lab/"
+          external: false
+    
+    - title: "协议"
+      links:
+        - text: "隐私协议"
+          url: "/privacy/"
+          external: false
+        - text: "Cookies"
+          url: "/cookies/"
+          external: false
+        - text: "版权协议"
+          url: "/license/"
+          external: false
+    
+    - title: "占位"
+      links:
+        - text: "占位"
+          url: "https://zym2013.github.io"
+          external: true
+  
+  # 底部信息栏配置（版权 + 主题 + 协议）
+  bottom:
+    copyright:
+      author: "zym2013"         # 版权作者名
+      startYear: 2026           # 起始年份（自动计算到当前年份）
+    theme:
+      text: "使用 ASPH 构建"      # 主题链接显示文字
+      url: "https://github.com/zym2013/asph"  # 主题项目链接
+      icon: "fa-solid fa-crop-simple"  # 主题图标
+    license:
+      name: "CC BY-NC-SA 4.0"   # 协议名称（用于 aria-label）
+      url: "https://creativecommons.org/licenses/by-nc-sa/4.0/"  # 协议详情链接
+      icons:                    # 协议图标列表（Creative Commons 图标）
+        - "fa-brands fa-creative-commons"
+        - "fa-brands fa-creative-commons-by"
+        - "fa-brands fa-creative-commons-nc"
+        - "fa-brands fa-creative-commons-sa"
+  
+  # 诗词打字机配置（页脚底部，版权旁）
+  poem:
+    enabled: true               # 是否启用诗词打字机
+    source: "jinrishici"        # 诗词来源：'jinrishici'（调用 API）或 'custom'（自定义）
+    customText: "「长风破浪会有时，直挂云帆济沧海。」"  # source=custom 时使用的自定义诗词
+    typeSpeed: 80               # 打字速度（毫秒/字符）
+    backSpeed: 40               # 删除速度（毫秒/字符）
+    backDelay: 2000             # 循环间隔延迟（毫秒）
+    loop: true                  # 是否循环播放
+
+# -----------------------------------------------------------------------------
+# 📝 博客页配置 (Blog Page) - 极简版
+# -----------------------------------------------------------------------------
+blog:
+  # 作者显示名（博客页顶部/文章作者处显示）
+  authorName: "zym2013"
+  
+  # 作者简短介绍（博客页头部副标题/关于作者区域显示）
+  pageBio: "一些文章"
+
+# -----------------------------------------------------------------------------
+# 🌐 网站全局配置 (Site Info)
+# -----------------------------------------------------------------------------
+site:
+  # 网站基础信息
+  name: "zym2013"               # 网站名称（显示在标签页、SEO、分享卡片等）
+  shortName: "zym"              # 短名称（用于小屏显示或图标标签）
+  description: "zym2013 的个人主页 · 分享编程项目、算法题解与技术思考"  # 网站简介（SEO 核心）
+  url: "https://zym2013.github.io"  # 网站主域名（用于 RSS/SEO 绝对链接）
+  
+  # SEO 优化配置
+  seo:
+    keywords: ["zym2013", "编程博客", "算法竞赛", "洛谷", "前端开发", "个人主页"]  # 全站关键词
+    author: "zym2013"           # 默认作者（用于 meta 标签）
+    twitter: "@zym2013"         # Twitter 账号（用于 Twitter Card）
+    ogImage: "/og-default.png"  # 默认 Open Graph 图片（分享时显示）
+  
+  # 第三方服务配置
+  services:
+    giscus:                     # 评论系统配置（与 Giscus 脚本参数对应）
+      repo: "zym2013/zym2013.github.io"
+      repoId: "R_kgDOSASdow"
+      category: "General"
+      categoryId: "DIC_kwDOSASdo84C7tBh"
+      mapping: "url"            # 评论关联方式：'url' / 'pathname' / 'og:title' 等
+      strict: 0                 # 是否严格匹配标题
+      reactionsEnabled: 1       # 是否启用表情反应
+      emitMetadata: 1           # 是否发送元数据
+      theme: "preferred_color_scheme"  # 主题：'light' / 'dark' / 'preferred_color_scheme'
+      lang: "zh-CN"             # 界面语言

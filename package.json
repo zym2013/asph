@@ -1,0 +1,46 @@
+{
+  "name": "asph",
+  "version": "1.0.0",
+  "description": "Astro Simple Personal Homepage - 快速搭建个人博客",
+  "type": "module",
+  "bin": {
+    "asph": "./bin/asph.js"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "keywords": [
+    "astro",
+    "blog",
+    "personal-homepage",
+    "template",
+    "cli"
+  ],
+  "author": "zym2013 <3396619503@qq.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zym2013/asph.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zym2013/asph/issues"
+  },
+  "homepage": "https://github.com/zym2013/asph#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "npm run build",
+    "build": "echo 'No build step needed'"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "execa": "^9.3.0",
+    "fs-extra": "^11.2.0",
+    "ora": "^8.0.1",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/prompts": "^2.4.9"
+  }
+}
