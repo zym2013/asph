@@ -2,7 +2,6 @@
 name: 🚀 Publish to npm
 
 on:
-  # 手动触发（推荐）
   workflow_dispatch:
     inputs:
       version:
@@ -10,10 +9,7 @@ on:
         required: true
         default: 'patch'
         type: choice
-        options:
-          - patch
-          - minor
-          - major
+        options: [patch, minor, major]
   
   # 或：推送到 main 分支时自动发布（谨慎使用）
   push:
