@@ -31,38 +31,28 @@ jobs:
       id-token: write
     
     steps:
-      # 👇 1. 检出代码
-      - name: 📦 Checkout code
+      - name: 📦 Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.GH_TOKEN }}
 
-      # 👇 2. 设置 Node.js（只负责 Node，不负责包管理器）
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
           registry-url: 'https://registry.npmjs.org'
-          # 👇 cache 只是缓存，不会安装 pnpm！
-          cache: 'pnpm'
 
-      # 👇 🔥 关键修复：显式安装 pnpm
+      # 🔥 关键修复：显式安装 pnpm（必须在任何 pnpm 命令之前）
       - name: 📦 Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10.33.0  # 👈 与你的 packageManager 字段一致
-          run_install: false  # 👈 先不安装，下一步手动装
+          version: 10.33.0
+          run_install: false
 
-      # 👇 3. 安装依赖（现在 pnpm 已可用）
       - name: 🔧 Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # 👇 4. 运行测试（可选）
-      - name: 🧪 Run tests
-        run: pnpm test || echo "⚠️ No tests found"
-
-      # 👇 5. 更新版本号
       - name: 🏷️ Bump version
         id: bump_version
         run: |
@@ -70,33 +60,21 @@ jobs:
           npm version $VERSION_TYPE --no-git-tag-version
           NEW_VERSION=$(node -p "require('./package.json').version")
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
-          echo "✅ 新版本: $NEW_VERSION"
 
-      # 👇 6. 构建（可选）
-      - name: 🔨 Build
-        run: pnpm run build || echo "⚠️ No build step"
-
-      # 👇 7. 发布到 npm
       - name: 🚀 Publish to npm
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # 👇 8. 创建 Release
-      - name: 🏷️ Create Git tag & Release
+      - name: 🏷️ Create Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.bump_version.outputs.new_version }}
           name: Release v${{ steps.bump_version.outputs.new_version }}
-          body: |
-            ## 🚀 asph@${{ steps.bump_version.outputs.new_version }}
-            自动发布通过 GitHub Actions
-          draft: false
-          prerelease: false
+          body: "Auto-release via GitHub Actions"
           token: ${{ secrets.GH_TOKEN }}
 
-      # 👇 9. 推送标签
-      - name: 📤 Push tags
+      - name: 📤 Push tag
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
