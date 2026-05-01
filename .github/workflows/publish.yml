@@ -27,68 +27,62 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # 用于创建 Git tag 和 release
-      id-token: write  # 用于 npm 证明
+      contents: write
+      id-token: write
     
     steps:
       # 👇 1. 检出代码
       - name: 📦 Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # 获取完整历史用于版本计算
-          token: ${{ secrets.GH_TOKEN }}  # 用于推送标签
+          fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}
 
-      # 👇 2. 设置 Node.js 环境
+      # 👇 2. 设置 Node.js（只负责 Node，不负责包管理器）
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
           registry-url: 'https://registry.npmjs.org'
+          # 👇 cache 只是缓存，不会安装 pnpm！
           cache: 'pnpm'
 
-      # 👇 3. 安装 pnpm
-      - name: 📦 Install pnpm
+      # 👇 🔥 关键修复：显式安装 pnpm
+      - name: 📦 Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10
-          run_install: false
+          version: 10.33.0  # 👈 与你的 packageManager 字段一致
+          run_install: false  # 👈 先不安装，下一步手动装
 
-      # 👇 4. 安装依赖
+      # 👇 3. 安装依赖（现在 pnpm 已可用）
       - name: 🔧 Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # 👇 5. 运行测试（如果有）
+      # 👇 4. 运行测试（可选）
       - name: 🧪 Run tests
-        run: pnpm test || echo "⚠️ No tests found, skipping..."
+        run: pnpm test || echo "⚠️ No tests found"
 
-      # 👇 6. 更新版本号
+      # 👇 5. 更新版本号
       - name: 🏷️ Bump version
         id: bump_version
         run: |
-          # 获取输入的版本类型
           VERSION_TYPE="${{ github.event.inputs.version || 'patch' }}"
-          
-          # 更新 package.json 版本
           npm version $VERSION_TYPE --no-git-tag-version
-          
-          # 获取新版本号
           NEW_VERSION=$(node -p "require('./package.json').version")
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
           echo "✅ 新版本: $NEW_VERSION"
 
-      # 👇 7. 构建（如果需要）
+      # 👇 6. 构建（可选）
       - name: 🔨 Build
-        run: pnpm run build || echo "⚠️ No build step, skipping..."
+        run: pnpm run build || echo "⚠️ No build step"
 
-      # 👇 8. 发布到 npm
+      # 👇 7. 发布到 npm
       - name: 🚀 Publish to npm
-        run: |
-          # 使用 npm publish，自动读取 .npmrc 或 NPM_TOKEN
-          npm publish --access public
+        run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # 👇 9. 创建 Git 标签和 Release
+      # 👇 8. 创建 Release
       - name: 🏷️ Create Git tag & Release
         uses: softprops/action-gh-release@v2
         with:
@@ -96,33 +90,16 @@ jobs:
           name: Release v${{ steps.bump_version.outputs.new_version }}
           body: |
             ## 🚀 asph@${{ steps.bump_version.outputs.new_version }}
-            
             自动发布通过 GitHub Actions
-            
-            ### 🔗 链接
-            - [npm 包](https://www.npmjs.com/package/asph/v/${{ steps.bump_version.outputs.new_version }})
-            - [GitHub Release](https://github.com/${{ github.repository }}/releases/tag/v${{ steps.bump_version.outputs.new_version }})
-            
-            ### 📦 安装
-            ```bash
-            # 使用 npx（无需安装）
-            npx asph init my-blog
-            
-            # 或全局安装
-            npm install -g asph@${{ steps.bump_version.outputs.new_version }}
-            ```
           draft: false
           prerelease: false
           token: ${{ secrets.GH_TOKEN }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 👇 10. 推送标签回仓库
+      # 👇 9. 推送标签
       - name: 📤 Push tags
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -a v${{ steps.bump_version.outputs.new_version }} -m "Release v${{ steps.bump_version.outputs.new_version }}"
           git push origin v${{ steps.bump_version.outputs.new_version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
