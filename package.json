@@ -1,5 +1,5 @@
 {
-  "name": "asph",
+  "name": "@zhangyimin12345/asph",
   "version": "1.0.0",
   "description": "Astro Simple Personal Homepage - 快速搭建个人博客",
   "type": "module",
@@ -9,6 +9,7 @@
   "engines": {
     "node": ">=22.12.0"
   },
+  "access": "public",
   "keywords": [
     "astro",
     "blog",
