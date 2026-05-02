@@ -1,4 +1,0 @@
-allowBuilds:
-  esbuild: false
-  oniguruma: true
-  sharp: false

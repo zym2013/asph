@@ -1,1 +1,0 @@
-# Astro Simple Personal Homepage

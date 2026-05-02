@@ -12,7 +12,6 @@ import ora from 'ora';
 
 /**
  * 构建生产版本
- * 
  * @description 执行 Astro 构建命令，将项目编译为生产优化版本，输出到 dist 目录
  * @async
  * @returns {Promise<void>}
@@ -29,7 +28,7 @@ export default async function build() {
       cwd: process.cwd(),
       env: {
         ...process.env,
-        FORCE_COLOR: '1'  // 强制彩色输出
+        FORCE_COLOR: '1'
       }
     });
     
@@ -39,9 +38,8 @@ export default async function build() {
     
   } catch (err) {
     spinner.fail(chalk.red('[FAIL]') + chalk.gray(' 构建失败'));
-    console.error(chalk.red('\n[ERROR] 错误详情:'));
-    console.error(err);
-    console.log(chalk.gray(`\n[INFO] 尝试手动运行: ${chalk.cyan('npx astro build')}\n`));
+    console.error(chalk.red('[ERR]') + chalk.gray(` ${err.message}`));
+    console.log(chalk.blueBright('[INFO]') + chalk.gray(' 尝试手动运行: ') + chalk.cyan('npx astro build') + chalk.gray('\n'));
     process.exit(1);
   }
 }

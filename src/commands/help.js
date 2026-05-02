@@ -10,7 +10,6 @@ import chalk from 'chalk';
 
 /**
  * 显示命令帮助信息
- * 
  * @description 展示特定命令的详细帮助或列出所有可用命令
  * @param {string} [command] - 指定查看帮助的命令名称，不提供则显示所有命令
  * @returns {void}
@@ -43,9 +42,15 @@ export default function help(command) {
       options: [
         ['-p, --port <port>', '指定端口（默认: 4321）']
       ]
+    },
+    deploy: {
+      usage: 'asph deploy',
+      description: '部署到 GitHub Pages',
+      options: [
+      ]
     }
   };
-  
+
   if (command && commands[command]) {
     const cmd = commands[command];
     console.log(chalk.cyan(`\n${cmd.usage}\n`));
@@ -56,7 +61,7 @@ export default function help(command) {
         console.log(`  ${chalk.cyan(flag.padEnd(25))} ${chalk.gray(desc)}`);
       });
     }
-    console.log();
+    console.log(chalk.whiteBright('[LOG]') + chalk.gray(' 以上为 ') + chalk.cyan(command) + chalk.gray(' 命令的详细说明。\n'));
   } else {
     console.log(chalk.cyan('\n可用命令:\n'));
     Object.entries(commands).forEach(([name, cmd]) => {

@@ -12,7 +12,6 @@ import ora from 'ora';
 
 /**
  * 启动生产版本预览服务器
- * 
  * @description 使用 Astro 预览模式启动服务器，用于查看生产构建后的网站效果
  * @async
  * @param {Object} [options] - 预览服务器启动选项
@@ -34,15 +33,14 @@ export default async function preview(options) {
       cwd: process.cwd(),
       env: {
         ...process.env,
-        FORCE_COLOR: '1'  // 强制彩色输出
+        FORCE_COLOR: '1'
       }
     });
     
     subprocess.on('error', (err) => {
       spinner.fail(chalk.red('[FAIL]') + chalk.gray(' 启动失败'));
-      console.error(chalk.red('\n[ERROR] 错误详情:'));
-      console.error(err);
-      console.log(chalk.gray(`\n[INFO] 请确保已先运行 ${chalk.cyan('asph build')} 构建项目\n`));
+      console.error(chalk.red('[ERR]') + chalk.gray(` ${err.message}`));
+      console.log(chalk.blueBright('[INFO]') + chalk.gray(' 请确保已先运行 ') + chalk.cyan('asph build') + chalk.gray(' 构建项目\n'));
       process.exit(1);
     });
     
@@ -58,9 +56,8 @@ export default async function preview(options) {
     
   } catch (err) {
     spinner.fail(chalk.red('[FAIL]') + chalk.gray(' 启动失败'));
-    console.error(chalk.red('\n[ERROR] 错误详情:'));
-    console.error(err);
-    console.log(chalk.gray(`\n[INFO] 请确保已先运行 ${chalk.cyan('asph build')} 构建项目\n`));
+    console.error(chalk.red('[ERR]') + chalk.gray(` ${err.message}`));
+    console.log(chalk.blueBright('[INFO]') + chalk.gray(' 请确保已先运行 ') + chalk.cyan('asph build') + chalk.gray(' 构建项目\n'));
     process.exit(1);
   }
 }
