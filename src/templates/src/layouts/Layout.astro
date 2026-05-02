@@ -8,19 +8,15 @@ import SiteFooter from "../components/SiteFooter.vue";
 import MusicPlayer from '../components/MusicPlayer.vue';
 
 const serializableConfig: SiteConfig = JSON.parse(JSON.stringify(config));
-const siteName = config.site?.name || 'zym2013';
+const siteName = config.site?.name;
 const siteDesc = config.site?.description || '个人主页 · 编程项目与技术分享';
 const siteUrl = config.site?.url || Astro.site?.origin || '';
 const seoKeywords = config.site?.seo?.keywords?.join(', ') || '';
-const seoAuthor = config.site?.seo?.author || 'zym2013';
+const seoAuthor = config.site?.seo?.author;
 const twitterHandle = config.site?.seo?.twitter || '';
 const ogImage = config.site?.seo?.ogImage || '/og-default.png';
 const blogAuthor = config.blog?.authorName || siteName;
 const blogBio = config.blog?.pageBio || siteDesc;
-const enableRss = config.site?.features?.rss !== false;
-const enableDarkMode = config.site?.features?.darkMode !== false;
-const enableSearch = config.site?.features?.search === true;
-const enablePwa = config.site?.features?.pwa === true;
 const giscus = config.site?.services?.giscus || {};
 interface Props {
   title?: string;
