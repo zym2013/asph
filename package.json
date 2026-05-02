@@ -1,6 +1,6 @@
 {
   "name": "@zhangyimin12345/asph",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Astro Simple Personal Homepage - 快速搭建个人博客",
   "type": "module",
   "packageManager": "pnpm@10.33.0",
