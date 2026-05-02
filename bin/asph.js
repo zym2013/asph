@@ -13,6 +13,7 @@ import devCmd from '../src/commands/dev.js';
 import buildCmd from '../src/commands/build.js';
 import previewCmd from '../src/commands/preview.js';
 import helpCmd from '../src/commands/help.js';
+import deployCmd from '../src/commands/deploy.js';
 
 const program = new Command();
 
@@ -51,6 +52,12 @@ program
   .command('help [command]')
   .description('❓ 显示帮助信息')
   .action(helpCmd);
+
+program
+  .command('deploy')
+  .alias('d')
+  .description('🚀 构建并部署到 GitHub Pages (gh-pages 分支)')
+  .action(deployCmd);
 
 // 👇 未知命令处理
 program.on('command:*', () => {

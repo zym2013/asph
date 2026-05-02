@@ -1,0 +1,189 @@
+---
+// src/layouts/Layout.astro
+import "../styles/global.css";
+import { config, type TopBarConfig, type SiteConfig } from '../lib/config';
+import ThemeToggle from "../components/ThemeToggle.vue";
+import TopBar from "../components/TopBar.vue";
+import SiteFooter from "../components/SiteFooter.vue";
+import MusicPlayer from '../components/MusicPlayer.vue';
+
+const serializableConfig: SiteConfig = JSON.parse(JSON.stringify(config));
+const siteName = config.site?.name || 'zym2013';
+const siteDesc = config.site?.description || '个人主页 · 编程项目与技术分享';
+const siteUrl = config.site?.url || Astro.site?.origin || '';
+const seoKeywords = config.site?.seo?.keywords?.join(', ') || '';
+const seoAuthor = config.site?.seo?.author || 'zym2013';
+const twitterHandle = config.site?.seo?.twitter || '';
+const ogImage = config.site?.seo?.ogImage || '/og-default.png';
+const blogAuthor = config.blog?.authorName || siteName;
+const blogBio = config.blog?.pageBio || siteDesc;
+const enableRss = config.site?.features?.rss !== false;
+const enableDarkMode = config.site?.features?.darkMode !== false;
+const enableSearch = config.site?.features?.search === true;
+const enablePwa = config.site?.features?.pwa === true;
+const giscus = config.site?.services?.giscus || {};
+interface Props {
+  title?: string;
+  description?: string;
+  pageTitle?: string;
+  isHome?: boolean;
+  allPosts?: Array<{ slug: string; title: string }>;
+  frontmatter?: {
+    title?: string;
+    description?: string;
+    pubDate?: string | Date;
+    tags?: string[];
+    toc?: Array<{ text: string; slug: string; depth: number }>;
+  };
+  topbarConfig?: TopBarConfig;
+}
+const {
+  title = blogAuthor,
+  description = blogBio,
+  pageTitle,
+  isHome = false,
+  allPosts = [],
+  frontmatter = {},
+  topbarConfig: incomingTopbarConfig,
+} = Astro.props as Props;
+const finalTitle = pageTitle || frontmatter?.title || title;
+const finalDescription = frontmatter?.description || description;
+const finalKeywords = frontmatter?.tags?.join(', ') || seoKeywords;
+
+const finalTopbarConfig = incomingTopbarConfig || config.topbar || {};
+---
+
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <!-- 动态标题 -->
+    <title>{finalTitle}</title>
+    
+    <!-- 动态 SEO Meta -->
+    <meta name="description" content={finalDescription} />
+    <meta name="keywords" content={finalKeywords} />
+    <meta name="author" content={seoAuthor} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={finalTitle} />
+    <meta property="og:description" content={finalDescription} />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:image" content={new URL(ogImage, siteUrl).href} />
+    <meta property="og:locale" content="zh_CN" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={finalTitle} />
+    <meta name="twitter:description" content={finalDescription} />
+    {twitterHandle && <meta name="twitter:site" content={twitterHandle} />}
+    <meta name="twitter:image" content={new URL(ogImage, siteUrl).href} />
+
+    <!-- 图标 -->
+    <link rel="icon" type="image/png" href="https://cdn.luogu.com.cn/upload/image_hosting/ydayi19u.png?x-oss-process=image/rounded-corners,r_360" referrerpolicy="no-referrer" crossorigin="anonymous" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdmirror.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/lxgwwenkaiscreenr.css" />
+    <link rel="stylesheet" href="https://cdn.jsdmirror.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.9/dist/katex.min.css" />
+    
+    <!-- 主题变量 -->
+    <style>
+      :root, html[data-theme="light"] {
+        --background: #fdfdfd; --foreground: #282728; --accent: #006cac;
+        --muted: #e6e6e6; --border: #ece9e9; --shadow: 0 4px 8px rgba(0,0,0,0.1);
+        --link: #006cac; --link-hover: #002f5a;
+      }
+      html[data-theme="dark"] {
+        --background: #212737; --foreground: #eaedf3; --accent: #ff6b01;
+        --muted: #343f60; --border: #ab4b08; --shadow: 0 4px 8px rgba(0,0,0,0.4);
+        --link: #ff6b01; --link-hover: #e46e19;
+      }
+    </style>
+    
+    <!-- NProgress -->
+    <script is:inline src="https://cdn.jsdmirror.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+    <script is:inline>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof NProgress !== "undefined") {
+          NProgress.configure({ showSpinner: false, speed: 200, minimum: 0.3 });
+          NProgress.start();
+          window.addEventListener("load", () => NProgress.done());
+          window.addEventListener("pageshow", (event) => {
+            if (event.persisted) { NProgress.start(); setTimeout(() => NProgress.done(), 100); }
+          });
+        }
+      });
+    </script>
+  </head>
+  
+  <body class="mkd">
+    {
+      isHome ? (
+        <ThemeToggle client:load />
+      ) : (
+        <TopBar client:load config={finalTopbarConfig} pageTitle={finalTitle} :allPosts={allPosts} />
+      )
+    }
+    
+    <slot />
+    
+    <!-- <MusicPlayer client:load /> -->
+    
+    {
+      !isHome && giscus.repo && (
+        <section class="giscus-section">
+          <div class="giscus-container">
+            <script src="https://giscus.app/client.js"
+              data-repo={giscus.repo}
+              data-repo-id={giscus.repoId}
+              data-category={giscus.category}
+              data-category-id={giscus.categoryId}
+              data-mapping={giscus.mapping}
+              data-strict={giscus.strict}
+              data-reactions-enabled={giscus.reactionsEnabled}
+              data-emit-metadata={giscus.emitMetadata}
+              data-input-position="top"
+              data-theme={giscus.theme}
+              data-lang={giscus.lang}
+              data-loading="lazy"
+              crossorigin="anonymous"
+              async
+            />
+          </div>
+        </section>
+        <script>
+          if (typeof document !== 'undefined') {
+            const syncGiscus = () => {
+              const iframe = document.querySelector('iframe.giscus-frame');
+              if (!iframe) return;
+              const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+              iframe.contentWindow?.postMessage(
+                { giscus: { setConfig: { theme: isDark ? 'dark' : (giscus.theme || 'light') } } },
+                'https://giscus.app'
+              );
+            };
+            const checkIframe = setInterval(() => {
+              if (document.querySelector('iframe.giscus-frame')) {
+                syncGiscus();
+                clearInterval(checkIframe);
+              }
+            }, 200);
+            new MutationObserver(syncGiscus).observe(
+              document.documentElement, 
+              { attributes: true, attributeFilter: ['data-theme'] }
+            );
+          }
+        </script>
+      )
+    }
+    
+    {!isHome && (<SiteFooter client:load config={serializableConfig} />)}
+  </body>
+</html>

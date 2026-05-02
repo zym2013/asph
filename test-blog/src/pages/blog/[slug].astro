@@ -1,0 +1,47 @@
+---
+// src/pages/blog/[slug].astro
+import Layout from "../../layouts/BlogLayout.astro";
+import { getAllPosts } from "../../lib/blog";
+import { initMarkdownIt } from "../../lib/mkd-it";
+const allPosts = (await getAllPosts()).map((p) => ({
+  slug: p.slug,
+  title: p.title,
+}));
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+const { post } = Astro.props;
+if (!post) {
+  return (Astro.response.status = 404);
+}
+const md = await initMarkdownIt();
+const html = md.render(post.body);
+---
+
+<Layout
+  title={post.title}
+  description={post.description}
+  pubDate={new Date(post.pubDate)}
+  tags={post.tags}
+  toc={post.headings}
+  content={html}
+  pageTitle={post.title}
+  isHome={false}
+  allPosts={allPosts}
+>
+  <script is:inline src="/scripts/enhance.ts"></script>
+</Layout>
+
+<script>
+  if (typeof document !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', async () => {
+      const { initCodeBlocks, initCodeGroups } = await import('/src/scripts/enhance.ts');
+      initCodeBlocks();
+      // initCodeGroups();
+    });
+  }
+</script>

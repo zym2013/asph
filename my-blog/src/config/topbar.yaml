@@ -1,0 +1,67 @@
+# src/config/topbar.yaml
+
+# 顶栏基础配置
+topbar:
+  # Logo 配置
+  logo:
+    text: "zym2013"
+    href: "/"
+    ariaLabel: "返回首页"
+  
+  # 默认页面标题（当无 pageTitle prop 时使用）
+  defaultTitle: "zym2013"
+  
+  # 功能按钮配置
+  buttons:
+    # 开往友链
+    travelling:
+      enabled: true
+      icon: "fa-solid fa-bus"
+      tooltip: "开往 · 友链接力"
+      confirmText: "即将前往外部网站，安全性无法保证"
+      cancelText: "取消"
+      confirmBtnText: "确认"
+      targetUrl: "https://www.travellings.cn/go.html"
+    
+    # 随机文章
+    randomPost:
+      enabled: true
+      icon: "fa-solid fa-dice"
+      tooltip: "随机跳转至本站的一篇文章"
+      fallbackUrl: "/blog/"
+    
+    # RSS 订阅（默认注释，可按需启用）
+    rss:
+      enabled: false
+      icon: "fa-solid fa-rss"
+      tooltip: "订阅 RSS"
+      url: "/rss.xml"
+      external: true
+    
+    # 主题切换
+    themeToggle:
+      enabled: true
+      tooltipLight: "点击切换主题"
+      tooltipDark: "点击切换主题"
+      iconLight: "fa-solid fa-moon"
+      iconDark: "fa-solid fa-sun"
+      ariaLabelLight: "切换到深色模式"
+      ariaLabelDark: "切换到浅色模式"
+    
+    # 返回顶部
+    scrollTop:
+      enabled: true
+      tooltip: "返回顶部"
+      showArrowThreshold: 95  # 滚动 >95% 时显示箭头而非百分比
+      transitionName: "slide-fade"
+
+  # Tooltip 配置
+  tooltip:
+    transitionName: "fade"
+    transitionMode: "out-in"
+    hideDelay: 250  # 隐藏延迟（与 CSS transition 一致）
+
+  # 滚动配置
+  scroll:
+    scrollTopThreshold: 0  # 滚动 >0 时显示返回顶部按钮
+    hasScrollbarThreshold: 10  # 可滚动高度 >10px 视为有滚动条
