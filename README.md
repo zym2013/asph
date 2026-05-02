@@ -1,32 +1,44 @@
-# Astro Simple Personal Homepage
+<p align="center">
+  <img src="https://cdn.luogu.com.cn/upload/image_hosting/ftre3etc.png" alt="ASPH" width="120" height="120" />
+</p>
 
-```bash
-# 使用 npx（无需安装）
-npx asph init my-blog
+<h1 align="center">Astro Simple Personal Homepage</h1>
+<p align="center">便捷、快速、美观的个人博客/主页框架</p>
 
-# 或全局安装后使用
-npm install -g asph
-asph init my-blog
+<p align="center">
+  <a href="https://www.npmjs.com/package/@zhangyimin12345/asph">
+    <img src="https://img.shields.io/npm/v/@zhangyimin12345/asph?style=flat-square" alt="npm version">
+  </a>
+  <a href="./LICENSE">
+    <img src="https://img.shields.io/npm/l/@zhangyimin12345/asph?style=flat-square" alt="license">
+  </a>
+  <a href="https://nodejs.org">
+    <img src="https://img.shields.io/node/v/@zhangyimin12345/asph?style=flat-square" alt="node">
+  </a>
+</p>
 
-# 选项
-asph init my-blog --template default --force  # 强制覆盖
-```
+<p align="center">
+  <a href="https://zym2013.github.io">预览</a> •
+  <a href="https://zym2013.github.io/blog/asph">文档</a> •
+  <a href="./LICENSE">许可证</a> •
+  <a href="https://www.npmjs.com/package/@zhangyimin12345/asph">NPM 包</a>
+</p>
 
-```bash
-cd my-blog
-asph dev          # 默认端口 4321
-asph dev -p 3000  # 指定端口
-```
+<br/>
 
-```bash
-asph build        # 输出到 dist/
-asph preview      # 预览生产版本
-```
+<p align="center">
+  <a href="https://zym2013.github.io">
+    <img src="https://cdn.luogu.com.cn/upload/image_hosting/7ud83pf0.png" alt="ASPH 的截图" width="800" />
+  </a>
+</p>
 
-| 命令 | 描述 | 选项 |
-|------|------|------|
-| `asph init [name]` | 初始化新项目 | `-t, --template`, `-f, --force` |
-| `asph dev` | 本地开发预览 | `-p, --port`, `-h, --host` |
-| `asph build` | 构建生产版本 | - |
-| `asph preview` | 预览生产构建 | `-p, --port` |
-| `asph help` | 显示帮助信息 | - |
+<p align="center">
+  <em>点击上方图片跳转我们的示例网站！！！</em>
+</p>
+
+**ASPH** 是一个基于 [Astro](https://astro.build) + [Vue](https://vuejs.org) + [Vite](https://vitejs.dev) 的静态博客/个人主页生成器。通过简单的 YAML 配置即可定制全站内容，零代码搭建属于你的专业博客。
+
+---
+
+> [邮件联系](mailto:3396619503@qq.com) <br>
+> Made with ❤️ by [zym2013](https://github.com/zym2013)
